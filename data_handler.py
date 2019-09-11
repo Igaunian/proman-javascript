@@ -19,7 +19,10 @@ def get_boards(cursor):
 
 @connection_handler
 def get_cards_for_board(cursor, board_id):
-    cursor.execute(f'SELECT title, status_id, placement FROM card WHERE board_id = {board_id}')  # don't know if placement is necessary, let's see
+    cursor.execute('''SELECT DISTINCT status.title AS statustitle, card.title AS cardtitle, status_id, placement 
+    FROM card INNER JOIN status ON card.status_id = status.id 
+    WHERE board_id = %s ORDER BY status_id''' % board_id)
+
     cards_for_board = cursor.fetchall()
     return cards_for_board
 

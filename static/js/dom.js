@@ -34,24 +34,81 @@ export let dom = {
 
         for(let board of boards){
             boardList += `
-                <li>${board.title}</li>
+                <section class="board">
+                    <div class="board-header">
+                        <span class="board-title">${board.title}</span>
+                            <button class="board-add">Add Card</button>
+                            <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
+                    </div>
+                </section>
             `;
         }
 
         const outerHtml = `
-            <ul class="board-container">
+            <div class="board-container">
                 ${boardList}
-            </ul>
+            </div>
         `;
 
         this._appendToElement(document.querySelector('#boards'), outerHtml);
     },
-    loadCards: function (boardId) {
+    loadCards: function () {
         // retrieves cards and makes showCards called
+        dataHandler.getCardsByBoardId(1, function(cards){
+            dom.showCards(cards);
+        });
     },
     showCards: function (cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
+
+        let cardList = '';
+
+        for (let i = 0; i < cards.length-1; i++) {
+            if (i === 0 && cards[i].statustitle !== cards[i - 1].statustitle) {
+                cardList += `
+                    <div class="board-column">
+                        <div class="board-column-title">${cards[i].statustitle}</div>
+                        <div class="board-column-content">
+                            <div class="card">
+                                <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
+                                <div class="card-title">${cards[i].cardtitle}</div>
+                            </div>
+                        </div>
+                    </div> 
+                `;
+            } else if (cards[i].statustitle === cards[i - 1].statustitle) {
+                cardList += `
+                    <div class="card">
+                        <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
+                        <div class="card-title">${cards[i].cardtitle}</div>
+                    </div> 
+                `;
+            }
+        }
+
+        // for(let card of cards){          // somehow it needs to group the cards into columns
+        //     cardList += `
+        //         <div class="board-column">
+        //             <div class="board-column-title">${card.statustitle}</div>
+        //             <div class="board-column-content">
+        //                 <div class="card">
+        //                     <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
+        //                     <div class="card-title">${card.cardtitle}</div>
+        //                 </div>
+        //             </div>
+        //         </div>
+        //     `;
+        // }
+
+        const outerHtml = `
+            <div class="board-columns">
+                ${cardList}
+            </div>
+        `;
+
+        this._appendToElement(document.querySelector('.board'), outerHtml);
+
     },
     // here comes more features
 };
