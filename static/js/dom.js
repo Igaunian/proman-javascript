@@ -64,24 +64,35 @@ export let dom = {
 
         let cardList = '';
 
-        for (let i = 0; i < cards.length-1; i++) {
-            if (i === 0 && cards[i].statustitle !== cards[i - 1].statustitle) {
+        for (let i = 0; i < cards.length; i++) {
+            console.log(cards[i]);
+
+            if (i === 0 || cards[i].statustitle !== cards[i - 1].statustitle) {
                 cardList += `
                     <div class="board-column">
                         <div class="board-column-title">${cards[i].statustitle}</div>
                         <div class="board-column-content">
-                            <div class="card">
-                                <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                                <div class="card-title">${cards[i].cardtitle}</div>
-                            </div>
-                        </div>
-                    </div> 
+                            
                 `;
-            } else if (cards[i].statustitle === cards[i - 1].statustitle) {
+            }
+
+            cardList += `
+                <div class="card">
+                    <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
+                    <div class="card-title">${cards[i].cardtitle}</div>
+                </div>
+            `;
+            if (i < (cards.length-1)) {
+                if (cards[i].statustitle !== cards[i + 1].statustitle) {
+                    cardList += `
+                            </div>
+                        </div> 
+                    `;
+                }
+            }
+            else {
                 cardList += `
-                    <div class="card">
-                        <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                        <div class="card-title">${cards[i].cardtitle}</div>
+                        </div>
                     </div> 
                 `;
             }
