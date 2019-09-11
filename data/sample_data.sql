@@ -68,16 +68,16 @@ SELECT pg_catalog.setval('board_id_seq', 2, true);
 
 INSERT INTO card VALUES (1,1,'new card 1',1,0);
 INSERT INTO card VALUES (2,1,'new card 2',1,1);
-INSERT INTO card VALUES (3,1,'in progress card',2,0);
-INSERT INTO card VALUES (4,1,'planning',3,0);
+INSERT INTO card VALUES (3,1,'in progress card 1',2,0);
+INSERT INTO card VALUES (4,1,'planning 1',3,0);
 INSERT INTO card VALUES (5,1,'done card 1',4,0);
-INSERT INTO card VALUES (6,1,'done card 1',4,1);
-INSERT INTO card VALUES (7,2,'new card 1',1,0);
-INSERT INTO card VALUES (8,2,'new card 2',1,1);
-INSERT INTO card VALUES (9,2,'in progress card',2,0);
-INSERT INTO card VALUES (10,2,'planning',3,0);
-INSERT INTO card VALUES (11,2,'done card 1',4,0);
-INSERT INTO card VALUES (12,2,'done card 1',4,1);
+INSERT INTO card VALUES (6,1,'done card 2',4,1);
+INSERT INTO card VALUES (7,2,'new 1',1,0);
+INSERT INTO card VALUES (8,2,'new 2',1,1);
+INSERT INTO card VALUES (9,2,'in progress 1',2,0);
+INSERT INTO card VALUES (10,2,'planning 01',3,0);
+INSERT INTO card VALUES (11,2,'done 1',4,0);
+INSERT INTO card VALUES (12,2,'done 2',4,1);
 SELECT pg_catalog.setval('card_id_seq', 12, true);
 
 
