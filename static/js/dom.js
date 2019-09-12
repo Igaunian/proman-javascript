@@ -39,8 +39,8 @@ export let dom = {
                 <section class="board" id="${board.id}" data-board-id="${board.id}">
                     <div class="board-header">
                         <span class="board-title" data-board-id="${board.id}">${board.title}</span>
-                            <button class="card-add" data-board-id="${board.id}">Add Card</button>
-                            <button class="board-toggle" data-board-id="${board.id}"><i class="fas fa-chevron-down" id="arrow.${board.id}"></i></button>
+                            <button class="card-add" id="card-add-${board.id}" data-board-id="${board.id}">Add Card</button>
+                            <button class="board-toggle" data-board-id="${board.id}"><i class="fas fa-chevron-down" id="arrow-${board.id}"></i></button>
                     </div>
                 </section>
             `;
@@ -51,30 +51,39 @@ export let dom = {
                 ${boardList}
             </div>
         `;
-
         this._appendToElement(document.querySelector('#boards'), outerHtml);
+
         let toggleButtons = document.getElementsByClassName("board-toggle");  // toggleButton event listener, that calls the loadCards with the boardId
 
         for(let button of toggleButtons) {
             let boardId = button.dataset.boardId;
 
             button.addEventListener('click', function () {
-                let arrowButton = document.getElementById("arrow." + boardId).className;
+                let arrowButton = document.getElementById("arrow-" + boardId).className;
 
                 if (arrowButton === "fas fa-chevron-up") {
                     dom.hideBoards(boardId)
                 }
                 else if (arrowButton === "fas fa-chevron-down") {
                     dom.loadCards(boardId);
-                    document.getElementById("arrow." + boardId).className = "fas fa-chevron-up"
+                    document.getElementById("arrow-" + boardId).className = "fas fa-chevron-up"
                 }
             });
+        }
+        let addCardButtons = document.getElementsByClassName("card-add");  // toggleButton event listener, that calls the loadCards with the boardId
+
+        for (let button of addCardButtons) {
+            let boardId = button.dataset.boardId;
+
+            button.addEventListener('click', function () {
+                dom.addCard(button, boardId)
+            })
         }
     },
     hideBoards: function (boardId) {
 
-        document.getElementById("boardColumn." + boardId).remove();
-        document.getElementById("arrow." + boardId).className = "fas fa-chevron-down"
+        document.getElementById("board-columns-" + boardId).remove();
+        document.getElementById("arrow-" + boardId).className = "fas fa-chevron-down"
 
     },
     loadCards: function (boardId) {
@@ -125,7 +134,7 @@ export let dom = {
         }
 
         const outerHtml = `
-            <div class="board-columns" id="boardColumn.${boardId}">
+            <div class="board-columns" id="board-columns-${boardId}">
                 ${cardList}
             </div>
         `;
@@ -133,12 +142,28 @@ export let dom = {
         this._appendToElement(document.getElementById(boardId), outerHtml);  // it should append the cards to the board with the ID...
 
     },
-//    addCard: function () {
-//
-  //              const outerHTML = `
-    //                <form `
+    addCard: function (button, boardId) {
+        const outerHtml = `
+            <div id="card-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <p>Some text in the Modal..</p>
+                </div>
+            </div>
+        `
 
-      //      }
-       // }
-   // }
+        this._appendToElement(document.getElementById("card-add" + boardId), outerHtml);
+
+        let modal = document.getElementById("card-modal");
+
+        let btn = document.getElementById("card-add-" + boardId);
+
+        let span = document.getElementsByClassName("close")[0];
+
+
+
+
+
+
+    }
 };
