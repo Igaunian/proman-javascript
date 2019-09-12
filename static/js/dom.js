@@ -70,6 +70,7 @@ export let dom = {
                 }
             });
         }
+        // $('#exampleModal').modal("show");
     },
     hideBoards: function (boardId) {
 
