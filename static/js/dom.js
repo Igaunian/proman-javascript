@@ -36,7 +36,7 @@ export let dom = {
             // console.log(board);
 
             boardList += `
-                <section class="board" data-board-id="${board.id}">
+                <section class="board" id="${board.id}" data-board-id="${board.id}">
                     <div class="board-header">
                         <span class="board-title" data-board-id="${board.id}">${board.title}</span>
                             <button class="board-add" data-board-id="${board.id}">Add Card</button>
@@ -67,10 +67,10 @@ export let dom = {
         // retrieves cards and makes showCards called
         boardId = parseInt(boardId, 10);
         dataHandler.getCardsByBoardId(boardId, function(cards){
-            dom.showCards(cards);
+            dom.showCards(cards, boardId);
         });
     },
-    showCards: function (cards) {
+    showCards: function (cards, boardId) {
         // shows the cards of a board
         // it adds necessary event listeners also
 
@@ -116,7 +116,7 @@ export let dom = {
             </div>
         `;
 
-        this._appendToElement(document.querySelector('.board'), outerHtml);  // it should append the cards to the board with the ID...
+        this._appendToElement(document.getElementById(boardId), outerHtml);  // it should append the cards to the board with the ID...
 
     },
     // here comes more features
