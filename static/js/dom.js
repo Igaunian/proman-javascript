@@ -40,7 +40,7 @@ export let dom = {
                     <div class="board-header">
                         <span class="board-title" data-board-id="${board.id}">${board.title}</span>
                             <button class="board-add" data-board-id="${board.id}">Add Card</button>
-                            <button class="board-toggle" data-board-id="${board.id}"><i class="fas fa-chevron-down"></i></button>
+                            <button class="board-toggle" data-board-id="${board.id}"><i class="fas fa-chevron-down" id="arrow.${board.id}"></i></button>
                     </div>
                 </section>
             `;
@@ -56,12 +56,23 @@ export let dom = {
 
         let toggleButtons = document.getElementsByClassName("board-toggle");  // toggleButton event listener, that calls the loadCards with the boardId
         for(let button of toggleButtons) {
+            let boardId = button.dataset.boardId;
             button.addEventListener('click', function () {
-                let boardId = button.dataset.boardId;
-                // console.log(boardId);
-                dom.loadCards(boardId);
-            })
+                if (document.getElementById("arrow." + boardId).className === "fas fa-chevron-up") {
+                    dom.hideBoards(boardId)
+                }
+                else if (document.getElementById("arrow." + boardId).className === "fas fa-chevron-down") {
+                    dom.loadCards(boardId);
+                    document.getElementById("arrow." + boardId).className = "fas fa-chevron-up"
+                }
+            });
         }
+    },
+    hideBoards: function (boardId) {
+
+        document.getElementById("boardColumn." + boardId).innerHTML = "";
+        document.getElementById("arrow." + boardId).className = "fas fa-chevron-down"
+
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
@@ -75,7 +86,7 @@ export let dom = {
         // it adds necessary event listeners also
 
         let cardList = '';
-        
+
         for (let index = 0; index < cards.length; index++) {
             console.log(cards[index]);
 
@@ -111,7 +122,7 @@ export let dom = {
         }
 
         const outerHtml = `
-            <div class="board-columns">
+            <div class="board-columns" id="boardColumn.${boardId}">
                 ${cardList}
             </div>
         `;
