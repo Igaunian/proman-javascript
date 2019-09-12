@@ -143,27 +143,15 @@ export let dom = {
 
     },
     addCard: function (button, boardId) {
-        const outerHtml = `
-            <div id="card-modal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <p>Some text in the Modal..</p>
-                </div>
-            </div>
-        `
 
-        this._appendToElement(document.getElementById("card-add" + boardId), outerHtml);
+        $('#exampleModal').modal("show");
 
-        let modal = document.getElementById("card-modal");
+        let addButton = document.getElementById("add-new-card");
+        addButton.addEventListener('click', function () {
 
-        let btn = document.getElementById("card-add-" + boardId);
+            dataHandler.createNewCard()
 
-        let span = document.getElementsByClassName("close")[0];
-
-
-
-
-
+        })
 
     }
 };
