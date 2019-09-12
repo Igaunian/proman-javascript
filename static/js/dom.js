@@ -39,7 +39,7 @@ export let dom = {
                 <section class="board" id="${board.id}" data-board-id="${board.id}">
                     <div class="board-header">
                         <span class="board-title" data-board-id="${board.id}">${board.title}</span>
-                            <button class="board-add" data-board-id="${board.id}">Add Card</button>
+                            <button class="card-add" data-board-id="${board.id}">Add Card</button>
                             <button class="board-toggle" data-board-id="${board.id}"><i class="fas fa-chevron-down" id="arrow.${board.id}"></i></button>
                     </div>
                 </section>
@@ -53,15 +53,18 @@ export let dom = {
         `;
 
         this._appendToElement(document.querySelector('#boards'), outerHtml);
-
         let toggleButtons = document.getElementsByClassName("board-toggle");  // toggleButton event listener, that calls the loadCards with the boardId
+
         for(let button of toggleButtons) {
             let boardId = button.dataset.boardId;
+
             button.addEventListener('click', function () {
-                if (document.getElementById("arrow." + boardId).className === "fas fa-chevron-up") {
+                let arrowButton = document.getElementById("arrow." + boardId).className;
+
+                if (arrowButton === "fas fa-chevron-up") {
                     dom.hideBoards(boardId)
                 }
-                else if (document.getElementById("arrow." + boardId).className === "fas fa-chevron-down") {
+                else if (arrowButton === "fas fa-chevron-down") {
                     dom.loadCards(boardId);
                     document.getElementById("arrow." + boardId).className = "fas fa-chevron-up"
                 }
@@ -130,5 +133,12 @@ export let dom = {
         this._appendToElement(document.getElementById(boardId), outerHtml);  // it should append the cards to the board with the ID...
 
     },
-    // here comes more features
+//    addCard: function () {
+//
+  //              const outerHTML = `
+    //                <form `
+
+      //      }
+       // }
+   // }
 };
