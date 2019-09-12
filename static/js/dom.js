@@ -70,7 +70,7 @@ export let dom = {
     },
     hideBoards: function (boardId) {
 
-        document.getElementById("boardColumn." + boardId).innerHTML = "";
+        document.getElementById("boardColumn." + boardId).remove();
         document.getElementById("arrow." + boardId).className = "fas fa-chevron-down"
 
     },
