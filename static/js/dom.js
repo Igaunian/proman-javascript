@@ -33,12 +33,14 @@ export let dom = {
         let boardList = '';
 
         for(let board of boards){
+            // console.log(board);
+
             boardList += `
-                <section class="board">
+                <section class="board" id="${board.id}" data-board-id="${board.id}">
                     <div class="board-header">
-                        <span class="board-title">${board.title}</span>
-                            <button class="board-add">Add Card</button>
-                            <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
+                        <span class="board-title" data-board-id="${board.id}">${board.title}</span>
+                            <button class="board-add" data-board-id="${board.id}">Add Card</button>
+                            <button class="board-toggle" data-board-id="${board.id}"><i class="fas fa-chevron-down"></i></button>
                     </div>
                 </section>
             `;
@@ -51,19 +53,29 @@ export let dom = {
         `;
 
         this._appendToElement(document.querySelector('#boards'), outerHtml);
+
+        let toggleButtons = document.getElementsByClassName("board-toggle");  // toggleButton event listener, that calls the loadCards with the boardId
+        for(let button of toggleButtons) {
+            button.addEventListener('click', function () {
+                let boardId = button.dataset.boardId;
+                // console.log(boardId);
+                dom.loadCards(boardId);
+            })
+        }
     },
-    loadCards: function () {
+    loadCards: function (boardId) {
         // retrieves cards and makes showCards called
-        dataHandler.getCardsByBoardId(1, function(cards){
-            dom.showCards(cards);
+        boardId = parseInt(boardId, 10);
+        dataHandler.getCardsByBoardId(boardId, function(cards){
+            dom.showCards(cards, boardId);
         });
     },
-    showCards: function (cards) {
+    showCards: function (cards, boardId) {
         // shows the cards of a board
         // it adds necessary event listeners also
 
         let cardList = '';
-
+        
         for (let index = 0; index < cards.length; index++) {
             console.log(cards[index]);
 
@@ -98,27 +110,13 @@ export let dom = {
             }
         }
 
-        // for(let card of cards){          // somehow it needs to group the cards into columns
-        //     cardList += `
-        //         <div class="board-column">
-        //             <div class="board-column-title">${card.statustitle}</div>
-        //             <div class="board-column-content">
-        //                 <div class="card">
-        //                     <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-        //                     <div class="card-title">${card.cardtitle}</div>
-        //                 </div>
-        //             </div>
-        //         </div>
-        //     `;
-        // }
-
         const outerHtml = `
             <div class="board-columns">
                 ${cardList}
             </div>
         `;
 
-        this._appendToElement(document.querySelector('.board'), outerHtml);
+        this._appendToElement(document.getElementById(boardId), outerHtml);  // it should append the cards to the board with the ID...
 
     },
     // here comes more features
