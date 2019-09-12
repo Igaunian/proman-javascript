@@ -64,13 +64,13 @@ export let dom = {
 
         let cardList = '';
 
-        for (let i = 0; i < cards.length; i++) {
-            console.log(cards[i]);
+        for (let index = 0; index < cards.length; index++) {
+            console.log(cards[index]);
 
-            if (i === 0 || cards[i].statustitle !== cards[i - 1].statustitle) {
+            if (index === 0 || cards[index].statustitle !== cards[index - 1].statustitle) {
                 cardList += `
                     <div class="board-column">
-                        <div class="board-column-title">${cards[i].statustitle}</div>
+                        <div class="board-column-title">${cards[index].statustitle}</div>
                         <div class="board-column-content">
                             
                 `;
@@ -79,11 +79,11 @@ export let dom = {
             cardList += `
                 <div class="card">
                     <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                    <div class="card-title">${cards[i].cardtitle}</div>
+                    <div class="card-title">${cards[index].cardtitle}</div>
                 </div>
             `;
-            if (i < (cards.length-1)) {
-                if (cards[i].statustitle !== cards[i + 1].statustitle) {
+            if (index < (cards.length-1)) {
+                if (cards[index].statustitle !== cards[index + 1].statustitle) {
                     cardList += `
                             </div>
                         </div> 
