@@ -19,6 +19,8 @@ export let dom = {
     },
     init: function () {
         // This function should run once, when the page is loaded.
+        dom.loadBoards();
+
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
