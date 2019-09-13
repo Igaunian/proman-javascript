@@ -63,7 +63,7 @@ export let dataHandler = {
     createNewCard: function (cardTitle, boardId, statusId, callback) {
 
         let data = {'title': cardTitle, 'board_id': boardId, 'status_id': statusId};
-        this._api_post('/get-cards/${boardId}', data, function (response) {
+        this._api_post('/get-cards/' + boardId, data, function (response) {
             this._data = response;
             callback(response)
         })

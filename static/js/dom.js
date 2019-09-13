@@ -88,7 +88,7 @@ export let dom = {
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
-        boardId = parseInt(boardId, 10);
+        // boardId = parseInt(boardId, 10);
         dataHandler.getCardsByBoardId(boardId, function(cards){
             dom.showCards(cards, boardId);
         });
@@ -155,7 +155,9 @@ export let dom = {
         addButton.addEventListener('click', function () {
 
             let cardTitle = document.querySelector("#card-title").value;
-            dataHandler.createNewCard(cardTitle, boardId,1, function(boardId) {
+            $('#exampleModal').modal('hide');
+
+            dataHandler.createNewCard(cardTitle, boardId, 1, function() {
                 dom.loadCards(boardId)
             })
 

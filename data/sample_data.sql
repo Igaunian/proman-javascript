@@ -27,7 +27,7 @@ CREATE TABLE card (
     board_id integer NOT NULL,
 	title varchar NOT NULL,
 	status_id integer NOT NULL,
-	placement integer NOT NULL
+	placement serial NOT NULL
 );
 
 
