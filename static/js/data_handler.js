@@ -19,9 +19,9 @@ export let dataHandler = {
     _api_post: function (url, data, callback) {
 
         fetch(url, {
-            method: 'GET',
+            method: 'POST',
             credentials: 'same-origin',
-            body: data
+            body: JSON.stringify(data)
         })
         .then(response => response.json())  // parse the response as JSON
         .then(json_response => callback(json_response));  // Call the `callback` with the returned object

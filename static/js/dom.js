@@ -150,10 +150,11 @@ export let dom = {
         });
 
         // let cardTitle = $("#card-title").val();
-        let cardTitle = document.querySelector("#card-title").value;
+
         let addButton = document.getElementById("add-card-button");
         addButton.addEventListener('click', function () {
 
+            let cardTitle = document.querySelector("#card-title").value;
             dataHandler.createNewCard(cardTitle, boardId,1, function(boardId) {
                 dom.loadCards(boardId)
             })
