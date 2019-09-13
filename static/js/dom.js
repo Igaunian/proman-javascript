@@ -76,7 +76,7 @@ export let dom = {
             let boardId = button.dataset.boardId;
 
             button.addEventListener('click', function () {
-                dom.addCard(button, boardId)
+                dom.addCard(boardId)
             })
         }
     },
@@ -142,14 +142,21 @@ export let dom = {
         this._appendToElement(document.getElementById(boardId), outerHtml);  // it should append the cards to the board with the ID...
 
     },
-    addCard: function (button, boardId) {
+    addCard: function (boardId) {
 
-        $('#exampleModal').modal("show");
+        $('#exampleModal').modal("show").on('hide.bs.modal', function () {
+            let cardName = $("#card-title").val();
 
-        let addButton = document.getElementById("add-new-card");
+        });
+
+        // let cardTitle = $("#card-title").val();
+        let cardTitle = document.querySelector("#card-title").value;
+        let addButton = document.getElementById("add-card-button");
         addButton.addEventListener('click', function () {
 
-            dataHandler.createNewCard()
+            dataHandler.createNewCard(cardTitle, boardId,1, function(boardId) {
+                dom.loadCards(boardId)
+            })
 
         })
 

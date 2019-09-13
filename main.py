@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request
 from util import json_response
 
 import data_handler
@@ -23,13 +23,19 @@ def get_boards():
     return data_handler.get_boards()
 
 
-@app.route("/get-cards/<int:board_id>")
+@app.route("/get-cards/<int:board_id>", methods=['GET', 'POST'])
 @json_response
-def get_cards_for_board(board_id: int):
+def get_cards_for_board(board_id: int, data):
     """
     All cards that belongs to a board
+    :param data:
+    :param table:
     :param board_id: id of the parent board
     """
+
+    if request.method == 'POST':
+        data_handler.insert_into_database('card', data)
+
     return data_handler.get_cards_for_board(board_id)
 
 

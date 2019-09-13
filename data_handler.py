@@ -1,4 +1,5 @@
 from connection import connection_handler
+from psycopg2 import sql
 
 
 @connection_handler
@@ -23,3 +24,11 @@ def get_cards_for_board(cursor, board_id):
 
     cards_for_board = cursor.fetchall()
     return cards_for_board
+
+
+@connection_handler
+def insert_into_database(cursor, table, data):
+    query = sql.SQL('INSERT INTO {} '
+                    'VALUES ({});').format(sql.Identifier(table), sql.SQL(', ').join(map(sql.Placeholder, data)))
+    cursor.execute(query, data)
+
