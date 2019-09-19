@@ -18,9 +18,15 @@ export let dataHandler = {
     },
     _api_post: function (url, data, callback) {
 
+        console.log(JSON.stringify(data));
+
         fetch(url, {
             method: 'POST',
             credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
             body: JSON.stringify(data)
         })
         .then(response => response.json())  // parse the response as JSON
@@ -63,8 +69,9 @@ export let dataHandler = {
     createNewCard: function (cardTitle, boardId, statusId, callback) {
 
         let data = {'title': cardTitle, 'board_id': boardId, 'status_id': statusId};
-        this._api_post('/get-cards/' + boardId, data, function (response) {
+        this._api_post(`/get-cards/${boardId}`, data, (response) => {
             this._data = response;
+            // callback(boardId);    // shouldn't we actually only use the id for the dom.loadCards?
             callback(response)
         })
     }

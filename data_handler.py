@@ -18,7 +18,7 @@ def get_boards(cursor):
 
 @connection_handler
 def get_cards_for_board(cursor, board_id):
-    cursor.execute('''SELECT DISTINCT status.title AS statustitle, card.title AS cardtitle, status_id, placement 
+    cursor.execute('''SELECT status.title AS statustitle, card.title AS cardtitle, status_id, placement 
     FROM card INNER JOIN status ON card.status_id = status.id 
     WHERE board_id = %s ORDER BY status_id, placement''' % board_id)
 
@@ -28,7 +28,15 @@ def get_cards_for_board(cursor, board_id):
 
 @connection_handler
 def insert_into_database(cursor, table, data):
-    query = sql.SQL('INSERT INTO {} '
-                    'VALUES ({});').format(sql.Identifier(table), sql.SQL(', ').join(map(sql.Placeholder, data)))
+
+    data['placement'] = 100
+
+    query = sql.SQL('INSERT INTO {} ({}) '
+                    'VALUES ({});').format(sql.Identifier(table),
+                                           sql.SQL(', ').join(map(sql.Identifier, data.keys())),
+                                           sql.SQL(', ').join(map(sql.Placeholder, data)))
+
+    print(query)
+
     cursor.execute(query, data)
 

@@ -8,6 +8,7 @@ export let dom = {
         fakeDiv.innerHTML = textToAppend.trim();
 
         for (let childNode of fakeDiv.childNodes) {
+            console.log(childNode);
             if (prepend) {
                 elementToExtend.prependChild(childNode);
             } else {
@@ -76,6 +77,7 @@ export let dom = {
 
         for (let button of addCardButtons) {
             let boardId = button.dataset.boardId;
+            boardId = parseInt(boardId, 10);
 
             button.addEventListener('click', function () {
                 dom.addCard(boardId)
@@ -90,7 +92,7 @@ export let dom = {
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
-        // boardId = parseInt(boardId, 10);
+        boardId = parseInt(boardId, 10);
         dataHandler.getCardsByBoardId(boardId, function(cards){
             dom.showCards(cards, boardId);
         });
@@ -102,7 +104,7 @@ export let dom = {
         let cardList = '';
 
         for (let index = 0; index < cards.length; index++) {
-            console.log(cards[index]);
+            // console.log(cards[index]);
 
             if (index === 0 || cards[index].statustitle !== cards[index - 1].statustitle) {
                 cardList += `
@@ -141,7 +143,7 @@ export let dom = {
             </div>
         `;
 
-        this._appendToElement(document.getElementById(boardId), outerHtml);  // it should append the cards to the board with the ID...
+        this._appendToElement(document.getElementById(boardId), outerHtml);
 
     },
     addCard: function (boardId) {
@@ -159,7 +161,7 @@ export let dom = {
             let cardTitle = document.querySelector("#card-title").value;
             $('#exampleModal').modal('hide');
 
-            dataHandler.createNewCard(cardTitle, boardId, 1, function() {
+            dataHandler.createNewCard(cardTitle, boardId, 1, function(boardId) {
                 dom.loadCards(boardId)
             })
 
