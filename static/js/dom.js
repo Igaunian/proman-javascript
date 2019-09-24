@@ -151,8 +151,8 @@ export let dom = {
 
             dataHandler.createNewCard(cardTitle, boardId, 1, function(boardId) {
                 dom.loadCards(boardId)
-            })
-
+            });
+            document.getElementById("card-title").value=null;
         })
 
     },
