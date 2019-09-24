@@ -101,45 +101,33 @@ export let dom = {
         // shows the cards of a board
         // it adds necessary event listeners also
 
-        let cardList = '';
+        let newCards = '';
+        let inProgressCards = '';
+        let testingCards = '';
+        let doneCards = '';
 
         for (let index = 0; index < cards.length; index++) {
-            // console.log(cards[index]);
-
-            if (index === 0 || cards[index].statustitle !== cards[index - 1].statustitle) {
-                cardList += `
-                    <div class="board-column">
-                        <div class="board-column-title">${cards[index].statustitle}</div>
-                        <div class="board-column-content">
-                            
-                `;
-            }
-
-            cardList += `
-                <div class="card">
-                    <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                    <div class="card-title">${cards[index].cardtitle}</div>
-                </div>
-            `;
-            if (index < (cards.length-1)) {
-                if (cards[index].statustitle !== cards[index + 1].statustitle) {
-                    cardList += `
-                            </div>
-                        </div> 
-                    `;
-                }
-            }
-            else {
-                cardList += `
-                        </div>
-                    </div> 
-                `;
+            if (cards[index].status_id === 1) {
+                newCards += dom.createCardsTemplate(cards[index].cardtitle)
+            } else if (cards[index].status_id === 2) {
+                inProgressCards += dom.createCardsTemplate(cards[index].cardtitle)
+            } else if (cards[index].status_id === 3) {
+                testingCards += dom.createCardsTemplate(cards[index].cardtitle)
+            } else if (cards[index].status_id === 4) {
+                doneCards += dom.createCardsTemplate(cards[index].cardtitle)
             }
         }
 
-        const outerHtml = `
-            <div class="board-columns" id="board-columns-${boardId}">
-                ${cardList}
+        let newColumn = this.createColumnTemplate('1', 'New', newCards);
+        let inProgressColumn = this.createColumnTemplate('2', 'In Progress', inProgressCards);
+        let testingColumn = this.createColumnTemplate('3', 'Testing', testingCards);
+        let doneColumn = this.createColumnTemplate('4', 'Done', doneCards);
+
+        const outerHtml = `<div class="board-columns" id="board-columns-${boardId}">
+            ${newColumn}
+            ${inProgressColumn}
+            ${testingColumn}
+            ${doneColumn}
             </div>
         `;
 
@@ -167,5 +155,21 @@ export let dom = {
 
         })
 
+    },
+    createColumnTemplate: function (statusId, statusName, statusCards) {
+        let column = `<div class="board-column" id="board-column-${statusId}">
+                        <div class="board-column-title">${statusName}</div>
+                        <div class="board-column-content">${statusCards}</div>
+                      </div>`;
+
+        return column
+    },
+    createCardsTemplate: function (cardTitle) {
+        let cards = `<div class="card">
+                        <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
+                        <div class="card-title">${cardTitle}</div>
+                     </div>`;
+
+        return cards
     }
 };
