@@ -14,10 +14,11 @@ def get_card_placement(cursor, board_id, status_id):
     cursor.execute(f'SELECT MAX(placement) FROM card WHERE board_id={board_id} AND status_id={status_id}')
 
     placement = cursor.fetchone()
-    if placement:
-        return placement + 1
-    else:
+    placement = int(placement['max'])
+    if not placement:
         return 0
+    else:
+        return placement + 1
 
 
 @connection_handler
