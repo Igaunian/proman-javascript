@@ -42,6 +42,7 @@ export let dom = {
                     <div class="board-header">
                         <span class="board-title" data-board-id="${board.id}">${board.title}</span>
                             <button class="card-add" id="card-add-${board.id}" data-board-id="${board.id}">Add Card</button>
+                            <button class="board-remove" data-board-id="${board.id}"><i class="fas fa-trash"></i></button>
                             <button class="board-toggle" data-board-id="${board.id}"><i class="fas fa-chevron-down" id="arrow-${board.id}"></i></button>
                     </div>
                 </section>
@@ -54,6 +55,11 @@ export let dom = {
             </div>
         `;
         this._appendToElement(document.querySelector('#boards'), outerHtml);
+
+        let boardDeleteButtons = document.getElementsByClassName('board-remove');
+        for (let deleteButton of boardDeleteButtons) {
+            deleteButton.addEventListener('click', dom.deleteBoard)
+        }
 
         let toggleButtons = document.getElementsByClassName("board-toggle");  // toggleButton event listener, that calls the loadCards with the boardId
 
@@ -166,7 +172,6 @@ export let dom = {
             dataHandler.createNewCard(cardTitle, boardId, 1, function(boardId) {
                 dom.loadCards(boardId)
             });
-            document.getElementById("card-title").value=null;
         })
 
     },
@@ -201,5 +206,13 @@ export let dom = {
                      </div>`;
 
         return cards
+    },
+    deleteBoard: function (event) {
+        let deleteButton = event.target;
+        if (deleteButton.classList.contains('fas')) {
+            deleteButton = deleteButton.parentElement;
+        }
+        let boardId = event.target.dataset.boardId;
+        dataHandler.deleteBoard(boardId, dom.loadCards);
     }
 };

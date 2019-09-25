@@ -16,21 +16,24 @@ export let dataHandler = {
         .then(response => response.json())  // parse the response as JSON
         .then(json_response => callback(json_response));  // Call the `callback` with the returned object
     },
-    _api_post: function (url, data, callback) {
-
-        console.log(JSON.stringify(data));
+     _api_post: function (url, data, callback) {
+        // it is not called from outside
+        // sends the data to the API, and calls callback function
 
         fetch(url, {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json',
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: JSON.stringify(data)
+        method: 'POST',
+        body: JSON.stringify(data),
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json'
+        }
         })
-        .then(response => response.json())  // parse the response as JSON
-        .then(json_response => callback(json_response));  // Call the `callback` with the returned object
+        .then(response => {
+            if (response.status === 200) {
+                callback();
+            }
+        });
+
     },
     init: function () {
     },
@@ -83,6 +86,9 @@ export let dataHandler = {
             let boardId = response.boardid;
             callback(boardId);
         })
+    },
+    deleteBoard: function(boardId, callback) {
+        this._api_post('/delete-board', boardId, callback)
     }
     // here comes more features
 };

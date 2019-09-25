@@ -59,3 +59,16 @@ def insert_into_database(cursor, table, data):
 def delete_card_from_database(cursor, card_id):
     cursor.execute('DELETE FROM card WHERE id=%(card_id)s;', {'card_id': card_id})
 
+
+@connection_handler
+def delete_card_by_board_id(cursor, board_id):
+    cursor.execute("""DELETE FROM card 
+                      WHERE board_id=%(board_id)s""",
+                   {'board_id': board_id})
+
+
+@connection_handler
+def delete_board(cursor, board_id):
+    cursor.execute("""DELETE FROM board
+                      WHERE id=%(board_id)s""",
+                   {'board_id': board_id})
