@@ -30,7 +30,7 @@ def get_boards(cursor):
 
 @connection_handler
 def get_cards_for_board(cursor, board_id):
-    cursor.execute('''SELECT card.id AS cardid, status.title AS statustitle, card.title AS cardtitle, status_id, placement 
+    cursor.execute('''SELECT card.id AS cardid, card.board_id AS boardid, status.title AS statustitle, card.title AS cardtitle, status_id, placement 
     FROM card INNER JOIN status ON card.status_id = status.id 
     WHERE board_id = %s ORDER BY status_id, placement''' % board_id)
 
@@ -56,6 +56,6 @@ def insert_into_database(cursor, table, data):
 
 
 @connection_handler
-def delete_from_database(cursor, table, column, condition=None):
-    cursor.execute(f'DELETE {column} FROM {table} WHERE {condition};')
+def delete_card_from_database(cursor, card_id):
+    cursor.execute('DELETE FROM card WHERE id=%(card_id)s;', {'card_id': card_id})
 

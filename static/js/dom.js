@@ -8,7 +8,6 @@ export let dom = {
         fakeDiv.innerHTML = textToAppend.trim();
 
         for (let childNode of fakeDiv.childNodes) {
-            console.log(childNode);
             if (prepend) {
                 elementToExtend.prependChild(childNode);
             } else {
@@ -108,13 +107,13 @@ export let dom = {
 
         for (let index = 0; index < cards.length; index++) {
             if (cards[index].status_id === 1) {
-                newCards += dom.createCardsTemplate(cards[index].cardtitle)
+                newCards += dom.createCardsTemplate(cards[index].cardtitle, cards[index].cardid)
             } else if (cards[index].status_id === 2) {
-                inProgressCards += dom.createCardsTemplate(cards[index].cardtitle)
+                inProgressCards += dom.createCardsTemplate(cards[index].cardtitle, cards[index].cardid)
             } else if (cards[index].status_id === 3) {
-                testingCards += dom.createCardsTemplate(cards[index].cardtitle)
+                testingCards += dom.createCardsTemplate(cards[index].cardtitle, cards[index].cardid)
             } else if (cards[index].status_id === 4) {
-                doneCards += dom.createCardsTemplate(cards[index].cardtitle)
+                doneCards += dom.createCardsTemplate(cards[index].cardtitle, cards[index].cardid)
             }
         }
 
@@ -132,6 +131,21 @@ export let dom = {
         `;
 
         this._appendToElement(document.getElementById(boardId), outerHtml);
+
+        // delete card
+        let deleteButtons = document.querySelectorAll('.card-remove');
+        for(let deleteButton of deleteButtons) {
+
+            let cardId = deleteButton.dataset.cardId;
+            cardId = parseInt(cardId, 10);
+
+            deleteButton.addEventListener('click', function() {
+                console.log(cardId);
+                dataHandler.deleteCard(cardId, function(boardId) {
+                    dom.loadCards(boardId)
+                })
+            })
+        }
 
     },
     addCard: function (boardId) {
@@ -156,6 +170,22 @@ export let dom = {
         })
 
     },
+    // deleteCard: function () {
+    //
+    //     let deleteButtons = document.querySelectorAll('.card-remove');
+    //     for(let deleteButton of deleteButtons) {
+    //
+    //         let cardId = deleteButton.dataset.cardID;
+    //         cardId = parseInt(cardId, 10);
+    //
+    //         deleteButton.addEventListener('click', function() {
+    //             dataHandler.deleteCard(cardId, function(boardId) {
+    //                 dom.loadCards(boardId)
+    //             })
+    //         })
+    //     }
+    //
+    // },
     createColumnTemplate: function (statusId, statusName, statusCards) {
         let column = `<div class="board-column" id="board-column-${statusId}">
                         <div class="board-column-title">${statusName}</div>
@@ -164,9 +194,9 @@ export let dom = {
 
         return column
     },
-    createCardsTemplate: function (cardTitle) {
+    createCardsTemplate: function (cardTitle, cardId) {
         let cards = `<div class="card">
-                        <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
+                        <div class="card-remove" data-card-id="${cardId}"><i class="fas fa-trash-alt"></i></div>
                         <div class="card-title">${cardTitle}</div>
                      </div>`;
 

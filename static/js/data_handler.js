@@ -74,6 +74,15 @@ export let dataHandler = {
             // callback(boardId);    // shouldn't we actually only use the id for the dom.loadCards?
             callback(response)
         })
+    },
+    deleteCard: function(cardId, callback) {
+        // let data = {'card_id': cardId};
+
+        this._api_post(`/delete-card/${cardId}`, cardId, (response) => {
+            console.log(response);
+            let boardId = response.boardid;
+            callback(boardId);
+        })
     }
     // here comes more features
 };
