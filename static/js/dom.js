@@ -54,6 +54,7 @@ export let dom = {
                 ${boardList}
             </div>
         `;
+        document.getElementById('boards').innerText=null;
         this._appendToElement(document.querySelector('#boards'), outerHtml);
 
         let boardDeleteButtons = document.getElementsByClassName('board-remove');
@@ -111,15 +112,15 @@ export let dom = {
         let testingCards = '';
         let doneCards = '';
 
-        for (let index = 0; index < cards.length; index++) {
-            if (cards[index].status_id === 1) {
-                newCards += dom.createCardsTemplate(cards[index].cardtitle, cards[index].cardid)
-            } else if (cards[index].status_id === 2) {
-                inProgressCards += dom.createCardsTemplate(cards[index].cardtitle, cards[index].cardid)
-            } else if (cards[index].status_id === 3) {
-                testingCards += dom.createCardsTemplate(cards[index].cardtitle, cards[index].cardid)
-            } else if (cards[index].status_id === 4) {
-                doneCards += dom.createCardsTemplate(cards[index].cardtitle, cards[index].cardid)
+        for (let card of cards) {
+            if (card.status_id === 1) {
+                newCards += dom.createCardsTemplate(card.cardtitle, card.cardid)
+            } else if (card.status_id === 2) {
+                inProgressCards += dom.createCardsTemplate(card.cardtitle, card.cardid)
+            } else if (card.status_id === 3) {
+                testingCards += dom.createCardsTemplate(card.cardtitle, card.cardid)
+            } else if (card.status_id === 4) {
+                doneCards += dom.createCardsTemplate(card.cardtitle, card.cardid)
             }
         }
 
@@ -213,6 +214,6 @@ export let dom = {
             deleteButton = deleteButton.parentElement;
         }
         let boardId = event.target.dataset.boardId;
-        dataHandler.deleteBoard(boardId, dom.loadCards);
+        dataHandler.deleteBoard(boardId, dom.loadBoards);
     }
 };
