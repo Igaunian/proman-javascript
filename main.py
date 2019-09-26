@@ -38,19 +38,12 @@ def get_cards_for_board(board_id: int):
     return data_handler.get_cards_for_board(board_id)
 
 
-@app.route("/delete-card/<int:card_id>", methods=['GET', 'POST'])
-@json_response
-def delete_card(card_id: int):
-    """
-    All cards that belongs to a board
-    :param card_id:
-    :param data:
-    """
-    print(card_id)
-    if request.method == 'POST':
-        data_handler.delete_card_from_database(card_id)
+@app.route("/delete-card", methods=['POST'])
+def delete_card():
+    card_id = request.json
+    data_handler.delete_card_from_database(card_id)
 
-        return app.make_response('deleted')
+    return app.make_response('deleted')
 
 
 @app.route('/delete-board', methods=['POST'])

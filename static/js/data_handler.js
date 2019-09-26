@@ -79,13 +79,7 @@ export let dataHandler = {
         })
     },
     deleteCard: function(cardId, callback) {
-        // let data = {'card_id': cardId};
-
-        this._api_post(`/delete-card/${cardId}`, cardId, (response) => {
-            console.log(response);
-            let boardId = response.boardid;
-            callback(boardId);
-        })
+        this._api_post('/delete-card', cardId, callback)
     },
     deleteBoard: function(boardId, callback) {
         this._api_post('/delete-board', boardId, callback)
