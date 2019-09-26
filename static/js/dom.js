@@ -141,25 +141,20 @@ export let dom = {
             ${doneColumn}
             </div>
         `;
-
+        document.getElementsByClassName('board-columns').innerText=null;
         this._appendToElement(document.getElementById(boardId), outerHtml);
 
-        // delete card
-        let deleteButtons = document.querySelectorAll('.card-remove');
+        let deleteButtons = document.getElementsByClassName('card-remove');
         for(let deleteButton of deleteButtons) {
-
-            let cardId = deleteButton.dataset.cardId;
-            cardId = parseInt(cardId, 10);
-
-            deleteButton.addEventListener('click', function() {
-                console.log(cardId);
-                dataHandler.deleteCard(cardId, function(boardId) {
-                    dom.loadCards(boardId)
-                })
-            })
+            deleteButton.addEventListener('click', dom.cardDelete)
         }
 
     },
+    cardDelete: function (event) {
+        let cardId = event.currentTarget.dataset.cardId;
+        dataHandler.deleteCard(cardId, dom.loadBoards())
+    },
+
     addCard: function (boardId) {
 
         $('#exampleModal').on('show.bs.modal', function (event) {
@@ -226,6 +221,6 @@ export let dom = {
             deleteButton = deleteButton.parentElement;
         }
         let boardId = deleteButton.dataset.boardId;
-        dataHandler.deleteBoard(boardId, dom.loadBoards);
+        dataHandler.deleteBoard(boardId, dom.loadBoards());
     }
 };
