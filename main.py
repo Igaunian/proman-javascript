@@ -45,20 +45,22 @@ def insert_board():
 
 
 @app.route("/delete-card", methods=['POST'])
+@json_response
 def delete_card():
     card_id = request.json
     data_handler.delete_card_from_database(card_id)
 
-    return app.make_response('deleted')
+    return 'deleted'
 
 
 @app.route('/delete-board', methods=['POST'])
+@json_response
 def delete_board():
     board_id = request.json
     data_handler.delete_card_by_board_id(board_id)
     data_handler.delete_board(board_id)
 
-    return app.make_response('deleted')
+    return 'deleted'
 
 
 def main():

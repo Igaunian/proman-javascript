@@ -152,7 +152,7 @@ export let dom = {
     },
     cardDelete: function (event) {
         let cardId = event.currentTarget.dataset.cardId;
-        dataHandler.deleteCard(cardId, dom.loadBoards())
+        dataHandler.deleteCard(cardId, dom.loadBoards)
     },
 
     addCard: function (boardId) {
@@ -209,7 +209,7 @@ export let dom = {
             let boardTitle = document.querySelector('#card-title').value;
             $('#exampleModal').modal('hide');
 
-            dataHandler.createNewBoard(boardTitle, dom.loadBoards())
+            dataHandler.createNewBoard(boardTitle, dom.loadBoards)
 
         });
     },
@@ -219,6 +219,6 @@ export let dom = {
             deleteButton = deleteButton.parentElement;
         }
         let boardId = deleteButton.dataset.boardId;
-        dataHandler.deleteBoard(boardId, dom.loadBoards());
+        dataHandler.deleteBoard(boardId, dom.loadBoards);
     }
 };
