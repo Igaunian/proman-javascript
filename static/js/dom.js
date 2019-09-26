@@ -21,6 +21,11 @@ export let dom = {
         // This function should run once, when the page is loaded.
         dom.loadBoards();
 
+        let addBoardButton = document.querySelector(".board-add");
+        addBoardButton.addEventListener("click", function () {
+            dom.addBoard()
+        })
+
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
@@ -157,9 +162,12 @@ export let dom = {
     },
     addCard: function (boardId) {
 
+        $('#exampleModal').on('show.bs.modal', function (event) {
+            document.querySelector("#exampleModalLabel").textContent = "Add New Card"
+        });
+
         $('#exampleModal').modal("show").on('hide.bs.modal', function () {
             let cardName = $("#card-title").val();
-
         });
 
         let addButton = document.getElementById("add-card-button");
@@ -189,6 +197,28 @@ export let dom = {
                      </div>`;
 
         return cards
+    },
+    addBoard: function () {
+
+        $('#exampleModal').on('show.bs.modal', function (event) {
+            document.querySelector("#exampleModalLabel").textContent = "Add New Board"
+        });
+
+        $('#exampleModal').modal("show").on('hide.bs.modal', function () {
+            let boardName = $("#card-title").val();
+        });
+
+        let addButton = document.querySelector('#add-card-button');
+        addButton.addEventListener('click', function () {
+
+            let boardTitle = document.querySelector('#card-title').value;
+            $('#exampleModal').modal('hide');
+
+            dataHandler.createNewBoard(boardTitle, function (boards) {
+                dom.showBoards(boards)
+            })
+
+        });
     },
     deleteBoard: function (event) {
         let deleteButton = event.target;

@@ -14,10 +14,13 @@ def get_card_placement(cursor, board_id, status_id):
     cursor.execute(f'SELECT MAX(placement) FROM card WHERE board_id={board_id} AND status_id={status_id}')
 
     placement = cursor.fetchone()
-    placement = int(placement['max'])
     if not placement:
         return 0
     else:
+        try:
+            placement = int(placement['max'])
+        except:
+            placement = 0
         return placement + 1
 
 
@@ -36,6 +39,26 @@ def get_cards_for_board(cursor, board_id):
 
     cards_for_board = cursor.fetchall()
     return cards_for_board
+
+
+@connection_handler
+def insert_into_database_card(cursor, data):
+
+    placement = get_card_placement(data['board_id'], data['status_id'])
+    print(placement)
+
+    cursor.execute('''INSERT INTO card (board_id, title, status_id, placement)
+                      VALUES (%(board_id)s, %(title)s, %(status_id)s, %(placement)s);''',
+                   {'board_id': data['board_id'], 'title': data['title'], 'status_id': data['status_id'],
+                    'placement': placement})
+
+
+@connection_handler
+def insert_into_database_board(cursor, data):
+
+    cursor.execute('''INSERT INTO board (title)
+                      VALUES (%(title)s);''',
+                   {'title': data['title']})
 
 
 @connection_handler
