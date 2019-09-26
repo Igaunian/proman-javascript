@@ -68,15 +68,12 @@ export let dataHandler = {
     },
     createNewBoard: function (boardTitle, callback) {
         let data = {'title': boardTitle};
-        this._api_post(`/get-boards`, data, (response) => {
-            this._data = response;
-            callback(response)
-        })
+        this._api_post(`/add-board`, data, callback)
     },
     createNewCard: function (cardTitle, boardId, statusId, callback) {
 
         let data = {'title': cardTitle, 'board_id': boardId, 'status_id': statusId};
-        this._api_post(`/add-cards/`, data, (response) => {
+        this._api_post(`/add-card/`, data, (response) => {
             this._data = response;
             // callback(boardId);    // shouldn't we actually only use the id for the dom.loadCards?
             callback(boardId)

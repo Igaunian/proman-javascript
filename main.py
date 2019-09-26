@@ -14,44 +14,34 @@ def index():
     return render_template('index.html')
 
 
-@app.route("/get-boards", methods=['GET','POST'])
+@app.route("/get-boards")
 @json_response
 def get_boards():
-    """
-    All the boards
-    """
-    if request.method == 'POST':
-        data_handler.insert_into_database_board(request.json)
 
     return data_handler.get_boards()
 
 
-@app.route("/get-cards/<int:board_id>", methods=['GET', 'POST'])
+@app.route("/get-cards/<int:board_id>")
 @json_response
-def get_cards_for_board(board_id: int):
-    """
-    All cards that belongs to a board
-    :param data:
-    :param board_id: id of the parent board
-    """
-
-    # if request.method == 'POST':
-    #    data_handler.insert_into_database_card(request.json)
+def get_cards(board_id: int):
 
     return data_handler.get_cards_for_board(board_id)
 
 
-@app.route("/add-cards/", methods=['GET', 'POST'])
+@app.route("/add-card", methods=['POST'])
 @json_response
-def add_cards_for_board():
-    """
-    All cards that belongs to a board
-    :param data:
-    :param board_id: id of the parent board
-    """
+def insert_card():
 
     if request.method == 'POST':
         data_handler.insert_into_database_card(request.json)
+
+
+@app.route("/add-board", methods=['POST'])
+@json_response
+def insert_board():
+
+    if request.method == 'POST':
+        data_handler.insert_into_database_board(request.json)
 
 
 @app.route("/delete-card", methods=['POST'])

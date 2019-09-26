@@ -209,9 +209,7 @@ export let dom = {
             let boardTitle = document.querySelector('#card-title').value;
             $('#exampleModal').modal('hide');
 
-            dataHandler.createNewBoard(boardTitle, function (boards) {
-                dom.showBoards(boards)
-            })
+            dataHandler.createNewBoard(boardTitle, dom.loadBoards())
 
         });
     },
