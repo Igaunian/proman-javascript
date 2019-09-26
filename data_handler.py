@@ -48,7 +48,7 @@ def insert_into_database_card(cursor, data):
     print(placement)
 
     cursor.execute('''INSERT INTO card (board_id, title, status_id, placement)
-                      VALUES (%(board_id)s, %(title)s, %(status_id)s, %(placement)s);''',
+                      VALUES (%(board_id)s, %(title)s, %(status_id)s, %(placement)s)''',
                    {'board_id': data['board_id'], 'title': data['title'], 'status_id': data['status_id'],
                     'placement': placement})
 

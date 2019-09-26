@@ -26,7 +26,6 @@ def get_boards():
     return data_handler.get_boards()
 
 
-
 @app.route("/get-cards/<int:board_id>", methods=['GET', 'POST'])
 @json_response
 def get_cards_for_board(board_id: int):
