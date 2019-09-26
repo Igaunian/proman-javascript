@@ -28,13 +28,13 @@ export let dataHandler = {
           'Content-Type': 'application/json'
         }
         })
-        .then(response => {
-            if (response.status === 200) {
-                callback();
-            }
-        });
-
+        .then(response => response.json())
+        .then(json_response => callback(json_response));
+        //.then(response => {
+          //  if (response.status === 200) {
+            //    callback();
     },
+
     init: function () {
     },
     getBoards: function (callback) {
@@ -67,15 +67,19 @@ export let dataHandler = {
         // the card is retrieved and then the callback function is called with the card
     },
     createNewBoard: function (boardTitle, callback) {
-        // creates new board, saves it and calls the callback function with its data
+        let data = {'title': boardTitle};
+        this._api_post(`/get-boards`, data, (response) => {
+            this._data = response;
+            callback(response)
+        })
     },
     createNewCard: function (cardTitle, boardId, statusId, callback) {
 
         let data = {'title': cardTitle, 'board_id': boardId, 'status_id': statusId};
-        this._api_post(`/get-cards/${boardId}`, data, (response) => {
+        this._api_post(`/add-cards/`, data, (response) => {
             this._data = response;
             // callback(boardId);    // shouldn't we actually only use the id for the dom.loadCards?
-            callback(response)
+            callback(boardId)
         })
     },
     deleteCard: function(cardId, callback) {
