@@ -162,8 +162,6 @@ export let dom = {
 
         });
 
-        // let cardTitle = $("#card-title").val();
-
         let addButton = document.getElementById("add-card-button");
         addButton.addEventListener('click', function () {
 
@@ -176,22 +174,6 @@ export let dom = {
         })
 
     },
-    // deleteCard: function () {
-    //
-    //     let deleteButtons = document.querySelectorAll('.card-remove');
-    //     for(let deleteButton of deleteButtons) {
-    //
-    //         let cardId = deleteButton.dataset.cardID;
-    //         cardId = parseInt(cardId, 10);
-    //
-    //         deleteButton.addEventListener('click', function() {
-    //             dataHandler.deleteCard(cardId, function(boardId) {
-    //                 dom.loadCards(boardId)
-    //             })
-    //         })
-    //     }
-    //
-    // },
     createColumnTemplate: function (statusId, statusName, statusCards) {
         let column = `<div class="board-column" id="board-column-${statusId}">
                         <div class="board-column-title">${statusName}</div>
@@ -213,7 +195,7 @@ export let dom = {
         if (deleteButton.classList.contains('fas')) {
             deleteButton = deleteButton.parentElement;
         }
-        let boardId = event.target.dataset.boardId;
+        let boardId = deleteButton.dataset.boardId;
         dataHandler.deleteBoard(boardId, dom.loadBoards);
     }
 };
