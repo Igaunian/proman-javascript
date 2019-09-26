@@ -68,7 +68,7 @@ export let dataHandler = {
     },
     createNewBoard: function (boardTitle, callback) {
         let data = {'title': boardTitle};
-        this._api_post(`/add-board`, data, callback)
+        this._api_post(`/add-board/`, data, callback)
     },
     createNewCard: function (cardTitle, boardId, statusId, callback) {
 

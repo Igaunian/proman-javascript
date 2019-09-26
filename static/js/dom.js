@@ -141,7 +141,11 @@ export let dom = {
             ${doneColumn}
             </div>
         `;
-        document.getElementsByClassName('board-columns').innerText=null;
+        let boardColumn = document.querySelector('#board-columns-' + boardId);
+        if (boardColumn) {
+            boardColumn.remove();
+        }
+
         this._appendToElement(document.getElementById(boardId), outerHtml);
 
         let deleteButtons = document.getElementsByClassName('card-remove');

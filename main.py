@@ -28,7 +28,7 @@ def get_cards(board_id: int):
     return data_handler.get_cards_for_board(board_id)
 
 
-@app.route("/add-card", methods=['POST'])
+@app.route("/add-card/", methods=['POST'])
 @json_response
 def insert_card():
 
@@ -36,7 +36,7 @@ def insert_card():
         data_handler.insert_into_database_card(request.json)
 
 
-@app.route("/add-board", methods=['POST'])
+@app.route("/add-board/", methods=['POST'])
 @json_response
 def insert_board():
 
