@@ -1,5 +1,5 @@
 // It uses data_handler.js to visualize elements
-import { dataHandler } from "./data_handler.js";
+import {dataHandler} from "./data_handler.js";
 
 export let dom = {
     _appendToElement: function (elementToExtend, textToAppend, prepend = false) {
@@ -24,12 +24,28 @@ export let dom = {
         let addBoardButton = document.querySelector(".board-add");
         addBoardButton.addEventListener("click", function () {
             dom.addBoard()
-        })
+        });
 
+        dom.initModal();
+
+    },
+    initModal: () => {
+        let addButton = document.getElementById("add-card-button");
+        addButton.addEventListener('click', function () {
+
+            let cardTitle = document.querySelector("#card-title").value;
+            $('#exampleModal').modal('hide');
+
+            const boardId = addButton.dataset.boardId;
+
+            dataHandler.createNewCard(cardTitle, boardId, 1, function (boardId) {
+                dom.loadCards(boardId)
+            });
+        })
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
-        dataHandler.getBoards(function(boards){
+        dataHandler.getBoards(function (boards) {
             dom.showBoards(boards);
         });
     },
@@ -39,7 +55,7 @@ export let dom = {
 
         let boardList = '';
 
-        for(let board of boards){
+        for (let board of boards) {
             // console.log(board);
 
             boardList += `
@@ -59,7 +75,7 @@ export let dom = {
                 ${boardList}
             </div>
         `;
-        document.getElementById('boards').innerText=null;
+        document.getElementById('boards').innerText = null;
         this._appendToElement(document.querySelector('#boards'), outerHtml);
 
         let boardDeleteButtons = document.getElementsByClassName('board-remove');
@@ -69,7 +85,7 @@ export let dom = {
 
         let toggleButtons = document.getElementsByClassName("board-toggle");  // toggleButton event listener, that calls the loadCards with the boardId
 
-        for(let button of toggleButtons) {
+        for (let button of toggleButtons) {
             let boardId = button.dataset.boardId;
 
             button.addEventListener('click', function () {
@@ -77,8 +93,7 @@ export let dom = {
 
                 if (arrowButton === "fas fa-chevron-up") {
                     dom.hideBoards(boardId)
-                }
-                else if (arrowButton === "fas fa-chevron-down") {
+                } else if (arrowButton === "fas fa-chevron-down") {
                     dom.loadCards(boardId);
                     document.getElementById("arrow-" + boardId).className = "fas fa-chevron-up"
                 }
@@ -97,14 +112,16 @@ export let dom = {
     },
     hideBoards: function (boardId) {
 
-        document.getElementById("board-columns-" + boardId).remove();
+        document
+            .getElementById("board-columns-" + boardId)
+            .remove();
         document.getElementById("arrow-" + boardId).className = "fas fa-chevron-down"
 
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
         boardId = parseInt(boardId, 10);
-        dataHandler.getCardsByBoardId(boardId, function(cards){
+        dataHandler.getCardsByBoardId(boardId, function (cards) {
             dom.showCards(cards, boardId);
         });
     },
@@ -149,7 +166,7 @@ export let dom = {
         this._appendToElement(document.getElementById(boardId), outerHtml);
 
         let deleteButtons = document.getElementsByClassName('card-remove');
-        for(let deleteButton of deleteButtons) {
+        for (let deleteButton of deleteButtons) {
             deleteButton.addEventListener('click', dom.cardDelete)
         }
 
@@ -169,16 +186,7 @@ export let dom = {
             let cardName = $("#card-title").val();
         });
 
-        let addButton = document.getElementById("add-card-button");
-        addButton.addEventListener('click', function () {
-
-            let cardTitle = document.querySelector("#card-title").value;
-            $('#exampleModal').modal('hide');
-
-            dataHandler.createNewCard(cardTitle, boardId, 1, function(boardId) {
-                dom.loadCards(boardId)
-            });
-        })
+        document.querySelector('#add-card-button').setAttribute('data-board-id', boardId);
 
     },
     createColumnTemplate: function (statusId, statusName, statusCards) {
@@ -187,7 +195,7 @@ export let dom = {
                         <div class="board-column-content">${statusCards}</div>
                       </div>`;
 
-        return column
+        return column;
     },
     createCardsTemplate: function (cardTitle, cardId) {
         let cards = `<div class="card">
